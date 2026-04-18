@@ -3,8 +3,6 @@ import { resolve } from "node:path";
 import { homedir } from "node:os";
 import { createHash } from "node:crypto";
 
-type CacheData = Record<string, any>;
-
 class CacheError extends Error {
   constructor(message: string) {
     super(message);
@@ -51,24 +49,24 @@ export default class Cache {
     return instance;
   }
 
-  async setItem(name: string, data: CacheData): Promise<void> {
+  async setItem(name: string, data: string): Promise<void> {
     try {
       const key = this.hashName(name);
       const filePath = this.getFilePath(key);
-      await Bun.write(filePath, JSON.stringify(data));
+      await Bun.write(filePath, data);
     } catch (e) {
       throw new CacheError(`Error almacenando información en cache ${e}`);
     }
   }
 
-  async loadItem(name: string): Promise<CacheData | null> {
+  async loadItem(name: string): Promise<string | null> {
     const key = this.hashName(name);
     if (!(await this.exists(key))) return null;
 
     if (await this.isObsolete(key)) return null;
 
     try {
-      return (await Bun.file(this.getFilePath(key)).json()) as CacheData;
+      return await Bun.file(this.getFilePath(key)).text();
     } catch (e) {
       throw new CacheError(`Error leyendo desde caché: ${e}`);
     }
@@ -87,7 +85,7 @@ export default class Cache {
   }
 
   private getFilePath(key: string): string {
-    return `${this._cacheDir}/${key}.json`;
+    return `${this._cacheDir}/${key}`;
   }
 
   private async exists(key: string): Promise<boolean> {
