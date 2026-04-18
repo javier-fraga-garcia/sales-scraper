@@ -1,0 +1,30 @@
+sites:
+  - id: books_toscrape
+    name: "Books To Scrape"
+    urls:
+      - https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html
+      - https://books.toscrape.com/catalogue/soumission_998/index.html
+      - https://books.toscrape.com/catalogue/sharp-objects_997/index.html
+
+    storage:
+      table_name: "product_history"
+      columns:
+        title:
+          selector: "h1"
+          type: "string"
+        price:
+          selector: "p.price_color"
+          type: "number"
+        image_url:
+          selector: ".item.active img"
+          type: "string"
+          attribute: "src"
+        availability:
+          selector: "p.instock.availability"
+          type: "string"
+
+delivery:
+  webhook_discord:
+    enabled: true
+    type: "webhook"
+    url: "tu_url_aqui"
