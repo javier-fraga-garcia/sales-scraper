@@ -1,5 +1,6 @@
 import { parseArgs } from "util";
 import { loadConfig } from "./config/config";
+import { createDb } from "./db/db";
 
 (async () => {
   const { values } = parseArgs({
@@ -22,6 +23,5 @@ import { loadConfig } from "./config/config";
   }
 
   const config = await loadConfig(configPath);
-
-  console.log(config.sites[0]?.urls);
+  createDb(config.app_name, config.storage);
 })();

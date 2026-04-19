@@ -1,3 +1,18 @@
+app_name: sales-scraper
+storage:
+  table_name: "product_history"
+  columns:
+    - title
+    - price
+    - image_url
+    - availability
+
+delivery:
+  webhook_discord:
+    enabled: true
+    type: "webhook"
+    url: "https://test.com"
+
 sites:
   - id: books_toscrape
     name: "Books To Scrape"
@@ -5,22 +20,13 @@ sites:
       - https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html
       - https://books.toscrape.com/catalogue/soumission_998/index.html
       - https://books.toscrape.com/catalogue/sharp-objects_997/index.html
-
-    storage:
-      table_name: "product_history"
-      columns:
-        title:
-          selector: "h1"
-        price:
-          selector: "p.price_color"
-        image_url:
-          selector: ".item.active img"
-          attribute: "src"
-        availability:
-          selector: "p.instock.availability"
-
-delivery:
-  webhook_discord:
-    enabled: true
-    type: "webhook"
-    url: "tu_url_aqui"
+    columns:
+      title:
+        selector: "h1"
+      price:
+        selector: "p.price_color"
+      image_url:
+        selector: ".item.active img"
+        attribute: "src"
+      availability:
+        selector: "p.instock.availability"
