@@ -27,6 +27,11 @@ class ScrapeDb {
       values,
     );
   }
+
+  close(): void {
+    this.db.close(false);
+  }
 }
 
+export type { ScrapeDb };
 export default ScrapeDb;
