@@ -4,8 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "bun run src/index.ts -c ./config/confg.yml",
-    "dev": "bun run src/index.ts -c ./config/confg.yml"
+    "start": "bun run src/index.ts -c ./config/config.yml",
+    "dev": "bun run src/index.ts -c ./config/config.yml"
   },
   "devDependencies": {
     "@types/bun": "latest"

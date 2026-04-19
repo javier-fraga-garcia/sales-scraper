@@ -1,6 +1,6 @@
 import { ConfigSchema, type Config } from "./schema";
 
-async function loadConfig(filePath: string): Promise<Config> {
+export async function loadConfig(filePath: string): Promise<Config> {
   const file = Bun.file(filePath);
   if (!(await file.exists()))
     throw new Error(`Archivo no encontrado en ${filePath}`);

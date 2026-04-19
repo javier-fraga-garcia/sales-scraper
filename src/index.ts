@@ -1,10 +1,27 @@
-import Cache from "@/cache/cache";
+import { parseArgs } from "util";
+import { loadConfig } from "./config/config";
 
 (async () => {
-  const cache = await Cache.create("sales-scraper", "./");
-  await cache.setItem("test", JSON.stringify({ test: 1, b: 2 }));
-  await cache.setItem("test2", "texto de pruebas");
-  console.log(await cache.loadItem("test2"));
-  console.log(await cache.loadItem("test"));
-  await cache.clear();
+  const { values } = parseArgs({
+    args: Bun.argv.slice(2),
+    options: {
+      config: {
+        type: "string",
+        short: "c",
+      },
+    },
+  });
+
+  const configPath = values.config;
+
+  if (!configPath) {
+    console.error(
+      "[x] Error: Debes indicar un archivo de configuración con -c o --config",
+    );
+    process.exit(1);
+  }
+
+  const config = await loadConfig(configPath);
+
+  console.log(config.sites[0]?.urls);
 })();
