@@ -1,6 +1,6 @@
 import { parseArgs } from "util";
 import { loadConfig } from "./config/config";
-import { createDb } from "./db/db";
+import ScrapeDb from "./db/db";
 
 (async () => {
   const { values } = parseArgs({
@@ -23,5 +23,12 @@ import { createDb } from "./db/db";
   }
 
   const config = await loadConfig(configPath);
-  createDb(config.app_name, config.storage);
+  const scrapeDb = new ScrapeDb(config.app_name, config.storage);
+  const exampleRow = {
+    title: "test",
+    price: "12.3€",
+    image_url: "https://image.com",
+    availability: "true",
+  };
+  scrapeDb.insert(exampleRow);
 })();
