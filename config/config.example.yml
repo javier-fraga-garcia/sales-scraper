@@ -11,17 +11,13 @@ sites:
       columns:
         title:
           selector: "h1"
-          type: "string"
         price:
           selector: "p.price_color"
-          type: "number"
         image_url:
           selector: ".item.active img"
-          type: "string"
           attribute: "src"
         availability:
           selector: "p.instock.availability"
-          type: "string"
 
 delivery:
   webhook_discord:
