@@ -11,6 +11,8 @@ class ScrapeDb {
 
     const cols = [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
+      "store TEXT",
+      "ingestion_time DATETIME DEFAULT CURRENT_TIMESTAMP",
       ...storage.columns.map((c) => `${c} TEXT`),
     ].join(", ");
 

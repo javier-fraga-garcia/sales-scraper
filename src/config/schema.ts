@@ -22,6 +22,7 @@ const DeliverySchema = z.discriminatedUnion("type", [
 const SiteSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
+  cache_selector: z.string().min(1).default("body"),
   urls: z.array(z.url()),
   columns: z.record(z.string(), ColumnSchema),
 });

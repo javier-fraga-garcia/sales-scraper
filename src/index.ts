@@ -1,6 +1,6 @@
 import { parseArgs } from "util";
 import { loadConfig } from "./config/config";
-import ScrapeDb from "./db/db";
+import ScrapeDb from "./db";
 
 (async () => {
   const { values } = parseArgs({
@@ -29,6 +29,7 @@ import ScrapeDb from "./db/db";
     price: "12.3€",
     image_url: "https://image.com",
     availability: "true",
+    store: "Books To Scrape",
   };
   scrapeDb.insert(exampleRow);
 })();
