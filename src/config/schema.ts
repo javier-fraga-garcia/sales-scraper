@@ -42,3 +42,4 @@ export const ConfigSchema = z.object({
 export type Config = z.infer<typeof ConfigSchema>;
 export type Site = z.infer<typeof SiteSchema>;
 export type Storage = z.infer<typeof StorageSchema>;
+export type Delivery = z.infer<typeof DeliverySchema>;
