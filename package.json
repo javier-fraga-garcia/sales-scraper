@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "bun run src/index.ts -c ./config/config.yml",
-    "dev": "bun run src/index.ts -c ./config/config.yml"
+    "dev": "bun run src/index.ts -c ./config/config.example.yml"
   },
   "devDependencies": {
     "@types/bun": "latest"
