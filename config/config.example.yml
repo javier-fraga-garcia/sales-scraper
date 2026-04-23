@@ -16,14 +16,14 @@ delivery:
 sites:
   - id: books_toscrape
     name: "Books To Scrape"
-    cache_selector: body
+    cache_selector: ".product_page"
     urls:
       - https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html
       - https://books.toscrape.com/catalogue/soumission_998/index.html
       - https://books.toscrape.com/catalogue/sharp-objects_997/index.html
     columns:
       title:
-        selector: "h1"
+        selector: ".product_page h1"
       price:
         selector: "p.price_color"
       image_url:
