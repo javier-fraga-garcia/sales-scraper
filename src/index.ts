@@ -1,6 +1,8 @@
 import { parseArgs } from "util";
 import { loadConfig } from "./config/config";
 import LiteScraperDb from "./db/sqlite";
+import Scraper from "./scraper/scraper";
+import Cache from "./cache";
 
 (async () => {
   const { values } = parseArgs({
@@ -23,13 +25,16 @@ import LiteScraperDb from "./db/sqlite";
   }
 
   const config = await loadConfig(configPath);
+  const cache = await Cache.create(config.app_name, "./");
   const scrapeDb = new LiteScraperDb(config.app_name, config.storage);
-  const exampleRow = {
-    title: "test",
-    price: "12.3€",
-    image_url: "https://image.com",
-    availability: "true",
-    store: "Books To Scrape",
-  };
-  scrapeDb.insert(exampleRow);
+  const scraper = new Scraper(scrapeDb, cache, config.sites);
+
+  try {
+    await scraper.scrape();
+  } catch (e) {
+    console.log(e);
+    process.exit(1);
+  } finally {
+    scrapeDb.close();
+  }
 })();
