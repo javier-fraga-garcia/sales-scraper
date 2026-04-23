@@ -1,6 +1,6 @@
 import { parseArgs } from "util";
 import { loadConfig } from "./config/config";
-import ScrapeDb from "./db";
+import LiteScraperDb from "./db/sqlite";
 
 (async () => {
   const { values } = parseArgs({
@@ -23,7 +23,7 @@ import ScrapeDb from "./db";
   }
 
   const config = await loadConfig(configPath);
-  const scrapeDb = new ScrapeDb(config.app_name, config.storage);
+  const scrapeDb = new LiteScraperDb(config.app_name, config.storage);
   const exampleRow = {
     title: "test",
     price: "12.3€",
