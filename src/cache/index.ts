@@ -16,7 +16,7 @@ export default class Cache {
   private _cacheDir: string;
   private _ttl: number;
 
-  constructor(
+  private constructor(
     appName: string,
     cacheDir: string | null,
     obsolescence: number = 2,
@@ -41,7 +41,7 @@ export default class Cache {
 
   static async create(
     appName: string,
-    cacheDir: string | null,
+    cacheDir: string | null = null,
     obsolescence: number = 2,
   ): Promise<Cache> {
     const instance = new Cache(appName, cacheDir, obsolescence);
