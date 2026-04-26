@@ -3,6 +3,7 @@ import { z } from "zod";
 const ColumnSchema = z.object({
   selector: z.string().min(1),
   attribute: z.string().optional(),
+  notify: z.boolean().optional(),
 });
 
 const DeliverySchema = z.discriminatedUnion("type", [

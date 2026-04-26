@@ -19,9 +19,7 @@ class Scraper {
         if (cached) {
           const { row } = Parser.parse(cached, site);
           this.db.insert({ store: site.name, ...row });
-          await this.deliveryService?.send(
-            `Se han detectado las siguientes ofertas en ${site.name}: ${JSON.stringify(row)}`,
-          );
+          await this.notify(site, row);
           continue;
         }
 
@@ -32,9 +30,7 @@ class Scraper {
 
         this.db.insert({ store: site.name, ...row });
         await this.cache.setItem(url, fragment);
-        await this.deliveryService?.send(
-          `Se han detectado las siguientes ofertas en ${site.name}: ${JSON.stringify(row)}`,
-        );
+        await this.notify(site, row);
       }
     }
   }
@@ -48,6 +44,18 @@ class Scraper {
       return null;
     }
     return res.text();
+  }
+
+  private async notify(site: Site, row: Record<string, string>): Promise<void> {
+    const notifyFields = Object.entries(site.columns)
+      .filter(([name, config]) => config.notify && !!row[name])
+      .map(([name]) => `${name}: ${row[name]}`);
+
+    if (notifyFields.length === 0) return;
+
+    await this.deliveryService?.send(
+      `Oferta detectada en ${site.name}:\n${notifyFields.join("\n")}`,
+    );
   }
 }
 

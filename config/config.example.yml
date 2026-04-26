@@ -26,6 +26,7 @@ sites:
         selector: ".product_page h1"
       price:
         selector: "p.price_color"
+        notify: true
       image_url:
         selector: ".item.active img"
         attribute: "src"
