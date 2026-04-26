@@ -13,7 +13,7 @@ class Parser {
       const el = $(config.selector);
       row[name] = config.attribute
         ? (el.attr(config.attribute) ?? "")
-        : el.text().trim();
+        : el.text().trim().replace(/\s+/g, " ");
     }
     const fragment = $(site.cache_selector).toString();
 

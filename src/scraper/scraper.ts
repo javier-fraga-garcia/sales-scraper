@@ -1,7 +1,7 @@
 import type Cache from "@/cache";
 import type { Site } from "@/config/schema";
 import type ScraperDb from "@/db";
-import type DeliveryService from "@/delivery";
+import type { DeliveryHandler } from "@/delivery";
 import Parser from "./parser";
 
 class Scraper {
@@ -9,7 +9,7 @@ class Scraper {
     private db: ScraperDb,
     private cache: Cache,
     private sites: Site[],
-    private deliveryService?: DeliveryService,
+    private deliveryHandlers?: DeliveryHandler[],
   ) {}
 
   async scrape(): Promise<void> {
@@ -53,9 +53,13 @@ class Scraper {
 
     if (notifyFields.length === 0) return;
 
-    await this.deliveryService?.send(
-      `Oferta detectada en ${site.name}:\n${notifyFields.join("\n")}`,
-    );
+    if (this.deliveryHandlers && this.deliveryHandlers?.length > 0) {
+      for (const handler of this.deliveryHandlers) {
+        await handler.send(
+          `Oferta detectada en ${site.name}:\n${notifyFields.join("\n")}`,
+        );
+      }
+    }
   }
 }
 

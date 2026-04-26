@@ -3,7 +3,7 @@ import { loadConfig } from "./config/config";
 import LiteScraperDb from "./db/sqlite";
 import Scraper from "./scraper/scraper";
 import Cache from "./cache";
-import DeliveryService from "./delivery";
+import { DeliveryFactory } from "./delivery";
 
 (async () => {
   const { values } = parseArgs({
@@ -28,8 +28,12 @@ import DeliveryService from "./delivery";
   const config = await loadConfig(configPath);
   const cache = await Cache.create(config.app_name, "./");
   const scrapeDb = new LiteScraperDb(config.app_name, config.storage);
-  const deliveryService = new DeliveryService(config.delivery);
-  const scraper = new Scraper(scrapeDb, cache, config.sites, deliveryService);
+  const deliveryHandlers =
+    config.delivery &&
+    Object.values(config.delivery)
+      .filter((d) => d.enabled)
+      .map((d) => DeliveryFactory.create(d));
+  const scraper = new Scraper(scrapeDb, cache, config.sites, deliveryHandlers);
 
   try {
     await scraper.scrape();
