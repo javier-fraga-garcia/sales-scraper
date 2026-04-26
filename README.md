@@ -7,7 +7,7 @@ Web scraper configurable para monitorear cambios de precios y ofertas en sitios 
 - **Scraping configurable**: Define selectores CSS y atributos por sitio
 - **Caché inteligente**: Evita requests repetidas con TTL configurable (por defecto 2 días)
 - **Base de datos SQLite**: Guarda histórico de cambios
-- **Notificaciones**: Envía alertas vía webhooks cuando se detectan cambios en campos marcados
+- **Notificaciones extensibles**: Sistema de handlers con patrón Factory para alertas (webhooks implementado)
 - **Configuración YAML**: Fácil setup de sitios, URLs y campos a monitorear
 - **Validación con Zod**: Asegura integridad de configuración
 
@@ -52,7 +52,7 @@ Ver `config/config.example.yml` para estructura completa. Elementos principales:
 
 - `app_name`: Nombre de la aplicación
 - `storage.table_name`: Tabla SQLite para guardar datos
-- `delivery`: Canales de notificación (webhooks)
+- `delivery`: Canales de notificación con soporte para webhooks y extensible para otros tipos
 - `sites`: Lista de sitios a scrapear con selectores CSS
 
 ## Tecnologías

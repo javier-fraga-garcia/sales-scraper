@@ -1,4 +1,4 @@
-import type DeliveryHandler from "../delivery.interface";
+import type { DeliveryHandler } from "../delivery.interface";
 import type { Delivery } from "@/config/schema";
 
 type WebhookConfig = Extract<Delivery, { type: "webhook" }>;
