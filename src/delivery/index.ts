@@ -1,17 +1,18 @@
 import type { Delivery } from "@/config/schema";
 
 class DeliveryService {
-  constructor(private deliveryConfig: Delivery) {}
+  constructor(private deliveryConfig: Record<string, Delivery>) {}
 
-  async send(msg: string): Promise<boolean> {
-    if (!this.deliveryConfig.enabled) return false;
-    switch (this.deliveryConfig.type) {
-      case "webhook":
-        return await this.sendWebhook(this.deliveryConfig, msg);
-      default:
-        throw new Error(
-          `Tipo de envío ${this.deliveryConfig.type} no implementado`,
-        );
+  async send(msg: string): Promise<void> {
+    for (const delivery of Object.values(this.deliveryConfig)) {
+      if (!delivery.enabled) continue;
+      switch (delivery.type) {
+        case "webhook":
+          await this.sendWebhook(delivery, msg);
+          break;
+        default:
+          throw new Error(`Tipo de envío ${delivery.type} no implementado`);
+      }
     }
   }
 

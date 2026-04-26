@@ -19,6 +19,9 @@ class Scraper {
         if (cached) {
           const { row } = Parser.parse(cached, site);
           this.db.insert({ store: site.name, ...row });
+          await this.deliveryService?.send(
+            `Se han detectado las siguientes ofertas en ${site.name}: ${JSON.stringify(row)}`,
+          );
           continue;
         }
 
@@ -30,7 +33,7 @@ class Scraper {
         this.db.insert({ store: site.name, ...row });
         await this.cache.setItem(url, fragment);
         await this.deliveryService?.send(
-          JSON.stringify({ store: site.name, ...row }),
+          `Se han detectado las siguientes ofertas en ${site.name}: ${JSON.stringify(row)}`,
         );
       }
     }
